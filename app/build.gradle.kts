@@ -48,10 +48,11 @@ dependencies {
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
-    implementation(libs.androidx.material3)
+//    implementation(libs.androidx.material3)
 
     implementation(libs.room.common)
     implementation(libs.room.ktx)
+    implementation(libs.androidx.material3)
 //    implementation(libs.room.compiler)
 //    implementation(libs.room.runtime)
 
