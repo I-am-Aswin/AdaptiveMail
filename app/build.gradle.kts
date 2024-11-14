@@ -52,8 +52,8 @@ dependencies {
 
     implementation(libs.room.common)
     implementation(libs.room.ktx)
-    implementation(libs.room.compiler)
-    implementation(libs.room.runtime)
+//    implementation(libs.room.compiler)
+//    implementation(libs.room.runtime)
 
 //    // Added Dependency
 //    implementation(libs.androidx.room.common)
