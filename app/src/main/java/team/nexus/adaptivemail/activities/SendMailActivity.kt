@@ -20,6 +20,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import team.nexus.adaptivemail.data.Email
 import team.nexus.adaptivemail.data.EmailDatabaseHelper
 
@@ -43,7 +45,7 @@ class SendMailActivity : ComponentActivity() {
                                 text = "Send Mail",
                                 fontSize = 32.sp,
                                 color = Color.Black,
-                                modifier = Modifier.fillMaxWidth(),
+                                modifier = Modifier.fillMaxWidth().padding(top = 20.dp),
                                 textAlign = TextAlign.Center
                             )
                         },
@@ -66,6 +68,8 @@ fun OpenEmailer(context: BoxScope, databaseHelper: EmailDatabaseHelper) {
     var subject by remember { mutableStateOf("") }
     var body by remember { mutableStateOf("") }
     var error by remember { mutableStateOf("") }
+    val snackbarHostState = remember { SnackbarHostState() }
+    val scope = rememberCoroutineScope()
 
     val ctx = LocalContext.current
 
@@ -156,18 +160,44 @@ fun OpenEmailer(context: BoxScope, databaseHelper: EmailDatabaseHelper) {
                     )
                     databaseHelper.insertEmail(email)
                     error = "Mail Saved"
+                    scope.launch {
+                        delay(1500)
+                        ctx.startActivity(Intent(ctx, ViewMailActivity::class.java))
+                    }
                 } else {
                     error = "Please fill all fields"
                 }
 
-                val i = Intent(Intent.ACTION_SEND)
-                val emailAddress = arrayOf(recevierMail)
-                i.putExtra(Intent.EXTRA_EMAIL, emailAddress)
-                i.putExtra(Intent.EXTRA_SUBJECT, subject)
-                i.putExtra(Intent.EXTRA_TEXT, body)
+//                if (recevierMail.isNotEmpty() && subject.isNotEmpty() && body.isNotEmpty()) {
+//                    val email = Email(
+//                        id = null,
+//                        senderMail = null,
+//                        recevierMail = recevierMail,
+//                        subject = subject,
+//                        body = body
+//                    )
+//                    databaseHelper.insertEmail(email)
+//
+//                    // Show the snackbar message
+//                    scope.launch {
+//                        snackbarHostState.showSnackbar("Mail Sent Successfully!")
+//                        delay(1500) // Delay before redirecting
+//                        ctx.startActivity(Intent(ctx, ViewMailActivity::class.java))
+//                    }
+//                } else {
+//                    scope.launch {
+//                        snackbarHostState.showSnackbar("Please fill all fields")
+//                    }
+//                }
 
-                i.setType("message/rfc822")
-                ctx.startActivity(Intent.createChooser(i, "Choose an Email client : "))
+//                val i = Intent(Intent.ACTION_SEND)
+//                val emailAddress = arrayOf(recevierMail)
+//                i.putExtra(Intent.EXTRA_EMAIL, emailAddress)
+//                i.putExtra(Intent.EXTRA_SUBJECT, subject)
+//                i.putExtra(Intent.EXTRA_TEXT, body)
+//
+//                i.setType("message/rfc822")
+//                ctx.startActivity(Intent.createChooser(i, "Choose an Email client : "))
             },
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFd3e5ef))
         ) {
