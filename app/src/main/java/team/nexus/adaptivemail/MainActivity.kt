@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.startActivity
 import team.nexus.adaptivemail.activities.LoginActivity
+import team.nexus.adaptivemail.activities.RegisterActivity
 import team.nexus.adaptivemail.activities.SendMailActivity
 import team.nexus.adaptivemail.activities.ViewMailActivity
 import team.nexus.adaptivemail.ui.theme.AdaptiveMailTheme
@@ -58,7 +59,43 @@ fun Email(context: Context) {
 //        Image(
 //            painterResource(id = R.drawable.home_screen), contentDescription = ""
 //        )
+        Button(onClick = {
+            context.startActivity(
+                Intent(
+                    context,
+                    RegisterActivity::class.java
+                )
+            )
+        },
+            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFadbef4))
+        ) {
+            Text(
+                text = "Register",
+                modifier = Modifier.padding(15.dp),
+                color = Color.Black,
+                fontSize = 15.sp
+            )
+        }
+        Spacer(modifier = Modifier.height(24.dp))
+        Button(onClick = {
+            context.startActivity(
+                Intent(
+                    context,
+                    LoginActivity::class.java
+                )
+            )
+        },
+            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFadbef4))
+        ) {
+            Text(
+                text = "Login",
+                modifier = Modifier.padding(15.dp),
+                color = Color.Black,
+                fontSize = 15.sp
+            )
+        }
 
+        Spacer(modifier = Modifier.height(24.dp))
 
         Button(onClick = {
             context.startActivity(

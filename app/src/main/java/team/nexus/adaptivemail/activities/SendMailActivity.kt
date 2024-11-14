@@ -5,7 +5,10 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -28,8 +31,8 @@ class SendMailActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         databaseHelper = EmailDatabaseHelper(this)
         setContent {
+            Spacer(modifier = Modifier.height(32.dp))
             Scaffold(
-                // Using the CenterAlignedTopAppBar from Material3.
                 topBar = {
                     CenterAlignedTopAppBar(
                         colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
@@ -47,8 +50,7 @@ class SendMailActivity : ComponentActivity() {
                         modifier = Modifier.height(80.dp)
                     )
                 }
-            ) { paddingValues -> // Apply padding values if needed
-                // Calling method to display UI with applied padding.
+            ) { paddingValues ->
                 Box(modifier = Modifier.padding(paddingValues)) {
                     OpenEmailer(this, databaseHelper)
                 }
@@ -56,182 +58,134 @@ class SendMailActivity : ComponentActivity() {
         }
     }
 }
-@Composable
-fun OpenEmailer(context: BoxScope, databaseHelper: EmailDatabaseHelper)  {
 
-    // in the below line, we are
-    // creating variables for URL
-    var recevierMail by remember {mutableStateOf("") }
-    var subject by remember {mutableStateOf("") }
-    var body by remember {mutableStateOf("") }
+@Composable
+fun OpenEmailer(context: BoxScope, databaseHelper: EmailDatabaseHelper) {
+
+    var recevierMail by remember { mutableStateOf("") }
+    var subject by remember { mutableStateOf("") }
+    var body by remember { mutableStateOf("") }
     var error by remember { mutableStateOf("") }
 
-    // on below line we are creating
-    // a variable for a context
     val ctx = LocalContext.current
 
-    // on below line we are creating a column
     Column(
-        // on below line we are specifying modifier
-        // and setting max height and max width
-        // for our column
         modifier = Modifier
             .fillMaxSize()
             .padding(top = 55.dp, bottom = 25.dp, start = 25.dp, end = 25.dp),
         horizontalAlignment = Alignment.Start
     ) {
 
-        // on the below line, we are
-        // creating a text field.
-        Text(text = "Receiver Email-Id",
+        Text(
+            text = "Receiver Email-Id",
             fontWeight = FontWeight.Bold,
-            fontSize = 16.sp)
+            fontSize = 16.sp,
+            modifier = Modifier.padding(bottom = 4.dp)
+        )
         TextField(
-            // on below line we are specifying
-            // value for our  text field.
             value = recevierMail,
-
-            // on below line we are adding on value
-            // change for text field.
             onValueChange = { recevierMail = it },
-
-            // on below line we are adding place holder as text
             label = { Text(text = "Email address") },
             placeholder = { Text(text = "abc@gmail.com") },
-
-            // on below line we are adding modifier to it
-            // and adding padding to it and filling max width
             modifier = Modifier
                 .padding(16.dp)
-                .fillMaxWidth(),
-
-            // on below line we are adding text style
-            // specifying color and font size to it.
+                .fillMaxWidth()
+                .border(1.dp, Color.Black) // Added black border
+                .background(Color.Transparent), // Transparent background
             textStyle = TextStyle(color = Color.Black, fontSize = 15.sp),
-
-            // on below line we are
-            // adding single line to it.
-            singleLine = true,
+            singleLine = true
         )
-        // on below line adding a spacer.
+
         Spacer(modifier = Modifier.height(10.dp))
 
-        Text(text = "Mail Subject",
+        Text(
+            text = "Mail Subject",
             fontWeight = FontWeight.Bold,
-            fontSize = 16.sp)
-        // on the below line, we are creating a text field.
+            fontSize = 16.sp,
+            modifier = Modifier.padding(bottom = 4.dp)
+        )
         TextField(
-            // on below line we are specifying
-            // value for our  text field.
             value = subject,
-
-            // on below line we are adding on value change
-            // for text field.
             onValueChange = { subject = it },
-
-            // on below line we are adding place holder as text
+            label = { Text(text = "Subject") },
             placeholder = { Text(text = "Subject") },
-
-            // on below line we are adding modifier to it
-            // and adding padding to it and filling max width
             modifier = Modifier
                 .padding(16.dp)
-                .fillMaxWidth(),
-
-            // on below line we are adding text style
-            // specifying color and font size to it.
+                .fillMaxWidth()
+                .border(1.dp, Color.Black) // Added black border
+                .background(Color.Transparent), // Transparent background
             textStyle = TextStyle(color = Color.Black, fontSize = 15.sp),
-
-            // on below line we are
-            // adding single line to it.
-            singleLine = true,
+            singleLine = true
         )
 
-        // on below line adding a spacer.
         Spacer(modifier = Modifier.height(10.dp))
 
-        Text(text = "Mail Body",
+        Text(
+            text = "Mail Body",
             fontWeight = FontWeight.Bold,
-            fontSize = 16.sp)
-        // on the below line, we are creating a text field.
+            fontSize = 16.sp,
+            modifier = Modifier.padding(bottom = 4.dp)
+        )
         TextField(
-            // on below line we are specifying
-            // value for our  text field.
             value = body,
-
-            // on below line we are adding on value
-            // change for text field.
             onValueChange = { body = it },
-
-            // on below line we are adding place holder as text
+            label = { Text(text = "Body") },
             placeholder = { Text(text = "Body") },
-
-            // on below line we are adding modifier to it
-            // and adding padding to it and filling max width
             modifier = Modifier
                 .padding(16.dp)
-                .fillMaxWidth(),
-
-            // on below line we are adding text style
-            // specifying color and font size to it.
+                .fillMaxWidth()
+                .height(200.dp) // Increase the height to make it larger
+                .border(1.dp, Color.Black) // Added black border
+                .background(Color.Transparent), // Transparent background
             textStyle = TextStyle(color = Color.Black, fontSize = 15.sp),
-
-            // on below line we are
-            // adding single line to it.
-            singleLine = true,
+            singleLine = false
         )
 
-        // on below line adding a spacer.
+
         Spacer(modifier = Modifier.height(20.dp))
 
-        // on below line adding a
-        // button to send an email
-        Button(onClick = {
+        Button(
+            onClick = {
+                if (recevierMail.isNotEmpty() && subject.isNotEmpty() && body.isNotEmpty()) {
+                    val email = Email(
+                        id = null,
+                        senderMail = null,
+                        recevierMail = recevierMail,
+                        subject = subject,
+                        body = body
+                    )
+                    databaseHelper.insertEmail(email)
+                    error = "Mail Saved"
+                } else {
+                    error = "Please fill all fields"
+                }
 
-            if( recevierMail.isNotEmpty() && subject.isNotEmpty() && body.isNotEmpty()) {
-                val email = Email(
-                    id = null,
-                    senderMail = null,
-                    recevierMail = recevierMail,
-                    subject = subject,
-                    body = body
+                val i = Intent(Intent.ACTION_SEND)
+                val emailAddress = arrayOf(recevierMail)
+                i.putExtra(Intent.EXTRA_EMAIL, emailAddress)
+                i.putExtra(Intent.EXTRA_SUBJECT, subject)
+                i.putExtra(Intent.EXTRA_TEXT, body)
 
-                )
-                databaseHelper.insertEmail(email)
-                error = "Mail Saved"
-            } else {
-                error = "Please fill all fields"
-            }
-
-            // on below line we are creating
-            // an intent to send an email
-            val i = Intent(Intent.ACTION_SEND)
-
-            // on below line we are passing email address,
-            // email subject and email body
-            val emailAddress = arrayOf(recevierMail)
-            i.putExtra(Intent.EXTRA_EMAIL,emailAddress)
-            i.putExtra(Intent.EXTRA_SUBJECT,subject)
-            i.putExtra(Intent.EXTRA_TEXT,body)
-
-            // on below line we are
-            // setting type of intent
-            i.setType("message/rfc822")
-
-            // on the below line we are starting our activity to open email application.
-            ctx.startActivity(Intent.createChooser(i,"Choose an Email client : "))
-
-        },
+                i.setType("message/rfc822")
+                ctx.startActivity(Intent.createChooser(i, "Choose an Email client : "))
+            },
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFd3e5ef))
         ) {
-            // on the below line creating a text for our button.
             Text(
-                // on below line adding a text ,
-                // padding, color and font size.
                 text = "Send Email",
                 modifier = Modifier.padding(10.dp),
                 color = Color.Black,
                 fontSize = 15.sp
+            )
+        }
+
+        if (error.isNotEmpty()) {
+            Text(
+                text = error,
+                color = Color.Red,
+                fontWeight = FontWeight.Bold,
+                fontSize = 14.sp,
+                modifier = Modifier.padding(16.dp)
             )
         }
     }

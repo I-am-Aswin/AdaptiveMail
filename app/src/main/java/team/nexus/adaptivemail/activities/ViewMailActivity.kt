@@ -5,9 +5,8 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.layout.R
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -15,25 +14,23 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import team.nexus.adaptivemail.data.Email
-import team.nexus.adaptivemail.ui.theme.AdaptiveMailTheme
 import team.nexus.adaptivemail.data.EmailDatabaseHelper
 
 class ViewMailActivity : ComponentActivity() {
     private lateinit var emailDatabaseHelper: EmailDatabaseHelper
+
     @OptIn(ExperimentalMaterial3Api::class)
     @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         emailDatabaseHelper = EmailDatabaseHelper(this)
         setContent {
+            Spacer(modifier = Modifier.height(32.dp))
             Scaffold(
                 topBar = {
                     CenterAlignedTopAppBar(
@@ -63,6 +60,7 @@ class ViewMailActivity : ComponentActivity() {
         }
     }
 }
+
 @Composable
 fun ListListScopeSample(email: List<Email>) {
     LazyRow(
@@ -71,23 +69,37 @@ fun ListListScopeSample(email: List<Email>) {
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         item {
-
             LazyColumn {
                 items(email) { email ->
+                    // Adding black border and transparent background for each email
                     Column(
-                        modifier = Modifier.padding(
-                            top = 16.dp,
-                            start = 48.dp,
-                            bottom = 20.dp
-                        )
+                        modifier = Modifier
+                            .padding(
+                                top = 16.dp,
+                                start = 16.dp,
+                                bottom = 20.dp,
+                                end = 16.dp // Add padding to the end (right side)
+                            )
+
+                            .border(1.dp, Color.Black) // Adding black border around each item
+                            .padding(16.dp)
                     ) {
-                        Text("Receiver_Mail: ${email.recevierMail}", fontWeight = FontWeight.Bold)
-                        Text("Subject: ${email.subject}")
-                        Text("Body: ${email.body}")
+                        Text(
+                            text = "Receiver_Mail: ${email.recevierMail}",
+                            fontWeight = FontWeight.Bold,
+                            modifier = Modifier.padding(bottom = 8.dp)
+                        )
+                        Text(
+                            text = "Subject: ${email.subject}",
+                            modifier = Modifier.padding(bottom = 8.dp)
+                        )
+                        Text(
+                            text = "Body: ${email.body}",
+                            modifier = Modifier.padding(bottom = 8.dp)
+                        )
                     }
                 }
             }
         }
-
     }
 }

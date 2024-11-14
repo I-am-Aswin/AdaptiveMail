@@ -7,32 +7,35 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
 import team.nexus.adaptivemail.ui.theme.AdaptiveMailTheme
 import team.nexus.adaptivemail.data.User
 import team.nexus.adaptivemail.data.UserDBHelper
+import team.nexus.adaptivemail.R
 
 class RegisterActivity : ComponentActivity() {
     private lateinit var databaseHelper: UserDBHelper
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         databaseHelper = UserDBHelper(this)
         setContent {
-
             RegistrationScreen(this, databaseHelper)
         }
     }
@@ -40,39 +43,49 @@ class RegisterActivity : ComponentActivity() {
 
 @Composable
 fun RegistrationScreen(context: Context, databaseHelper: UserDBHelper) {
-
-
-
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var error by remember { mutableStateOf("") }
 
     Column(
-        modifier = Modifier.fillMaxSize().background(Color.White),
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color(0xFFF0F4FA))
+            .padding(horizontal = 20.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-//        Image(
-//            painterResource(id = R.drawable.email_signup), contentDescription = "",
-//            modifier = Modifier.height(300.dp)
-//        )
-        Text(
-            fontSize = 36.sp,
-            fontWeight = FontWeight.ExtraBold,
-            fontFamily = FontFamily.Cursive,
-            text = "Register"
+        // Optional: Logo or Illustration
+        Image(
+            painter = painterResource(id = R.drawable.email_register),
+            contentDescription = "Signup Logo",
+            modifier = Modifier.size(150.dp),
+            contentScale = ContentScale.Crop
         )
 
-        Spacer(modifier = Modifier.height(10.dp))
+        Spacer(modifier = Modifier.height(20.dp))
+
+        Text(
+            text = "Register",
+            fontSize = 34.sp,
+            fontWeight = FontWeight.Bold,
+            fontFamily = FontFamily.Serif,
+            color = Color(0xFF1E3A8A)
+        )
+
+        Spacer(modifier = Modifier.height(20.dp))
+
         TextField(
             value = username,
             onValueChange = { username = it },
             label = { Text("Username") },
             modifier = Modifier
-                .padding(10.dp)
-                .width(280.dp)
-
+                .padding(vertical = 8.dp)
+                .fillMaxWidth(0.9f)
+                .background(Color.Transparent)
+                .border(1.dp, Color.Black, shape = RoundedCornerShape(8.dp)),
+            singleLine = true
         )
 
         TextField(
@@ -80,8 +93,11 @@ fun RegistrationScreen(context: Context, databaseHelper: UserDBHelper) {
             onValueChange = { email = it },
             label = { Text("Email") },
             modifier = Modifier
-                .padding(10.dp)
-                .width(280.dp)
+                .padding(vertical = 8.dp)
+                .fillMaxWidth(0.9f)
+                .background(Color.Transparent)
+                .border(1.dp, Color.Black, shape = RoundedCornerShape(12.dp)),
+            singleLine = true
         )
 
         TextField(
@@ -90,10 +106,12 @@ fun RegistrationScreen(context: Context, databaseHelper: UserDBHelper) {
             label = { Text("Password") },
             visualTransformation = PasswordVisualTransformation(),
             modifier = Modifier
-                .padding(10.dp)
-                .width(280.dp)
+                .padding(vertical = 8.dp)
+                .fillMaxWidth(0.9f)
+                .background(Color.Transparent)
+                .border(1.dp, Color.Black, shape = RoundedCornerShape(12.dp)),
+            singleLine = true
         )
-
 
         if (error.isNotEmpty()) {
             Text(
@@ -114,47 +132,40 @@ fun RegistrationScreen(context: Context, databaseHelper: UserDBHelper) {
                     )
                     databaseHelper.insertUser(user)
                     error = "User registered successfully"
-                    // Start LoginActivity using the current context
-                    context.startActivity(
-                        Intent(
-                            context,
-                            LoginActivity::class.java
-                        )
-                    )
-
+                    context.startActivity(Intent(context, LoginActivity::class.java))
                 } else {
                     error = "Please fill all fields"
                 }
             },
-            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFd3e5ef)),
-            modifier = Modifier.padding(top = 16.dp)
+            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF1E3A8A)),
+            modifier = Modifier
+                .padding(top = 16.dp)
+                .fillMaxWidth(0.7f)
+                .height(50.dp)
+                .clip(RoundedCornerShape(8.dp))
         ) {
-            Text(text = "Register")
+            Text(text = "Register", color = Color.White, fontSize = 18.sp)
         }
-        Spacer(modifier = Modifier.width(10.dp))
-        Spacer(modifier = Modifier.height(10.dp))
 
-        Row() {
+        Spacer(modifier = Modifier.height(20.dp))
+
+        Row(
+            horizontalArrangement = Arrangement.Center,
+            modifier = Modifier.fillMaxWidth()
+        ) {
             Text(
-                modifier = Modifier.padding(top = 14.dp), text = "Have an account?"
+                text = "Have an account?",
+                color = Color.Gray
             )
-            TextButton(onClick = {
-                context.startActivity(
-                    Intent(
-                        context,
-                        LoginActivity::class.java
-                    )
-                )
-            })
-
-            {
-                Spacer(modifier = Modifier.width(10.dp))
-                Text(color = Color(0xFF31539a),text = "Log in")
+//            Spacer(modifier = Modifier.width(8.dp))
+            TextButton(
+                onClick = {
+                    context.startActivity(Intent(context, LoginActivity::class.java))
+                }
+            ) {
+                Text(text = "Log in", color = Color(0xFF1E3A8A))
+//                Spacer(modifier = Modifier.width(8.dp))
             }
         }
     }
-}
-private fun startLoginActivity(context: Context) {
-    val intent = Intent(context, LoginActivity::class.java)
-    ContextCompat.startActivity(context, intent, null)
 }
