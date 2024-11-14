@@ -35,7 +35,7 @@ class MainActivity : ComponentActivity() {
             Surface(
                 modifier = Modifier.fillMaxSize().background(Color.White),
             ) {
-                Email(this)
+                startActivity( Intent(this, ViewMailActivity::class.java))
             }
 
         }

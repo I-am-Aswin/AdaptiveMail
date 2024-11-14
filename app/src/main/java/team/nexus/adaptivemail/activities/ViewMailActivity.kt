@@ -69,7 +69,9 @@ fun ListListScopeSample(email: List<Email>) {
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         item {
-            LazyColumn {
+            LazyColumn (
+                modifier = Modifier.fillMaxWidth()
+            ) {
                 items(email) { email ->
                     // Adding black border and transparent background for each email
                     Column(
@@ -83,6 +85,7 @@ fun ListListScopeSample(email: List<Email>) {
 
                             .border(1.dp, Color.Black) // Adding black border around each item
                             .padding(16.dp)
+                            .fillMaxWidth()
                     ) {
                         Text(
                             text = "Receiver_Mail: ${email.recevierMail}",

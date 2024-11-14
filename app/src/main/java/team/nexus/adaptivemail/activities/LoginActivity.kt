@@ -115,7 +115,7 @@ fun LoginScreen(context: Context, databaseHelper: UserDBHelper) {
                     val user = databaseHelper.getUserByUsername(username)
                     if (user != null && user.password == password) {
                         error = "Successfully logged in"
-                        context.startActivity(Intent(context, MainActivity::class.java))
+                        context.startActivity(Intent(context, ViewMailActivity::class.java))
                     } else {
                         error = "Invalid credentials"
                     }
@@ -133,7 +133,7 @@ fun LoginScreen(context: Context, databaseHelper: UserDBHelper) {
             Text(text = "Login", color = Color.White, fontSize = 18.sp)
         }
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(10.dp))
 
         Row(
             modifier = Modifier.fillMaxWidth(),

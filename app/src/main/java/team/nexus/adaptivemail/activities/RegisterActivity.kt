@@ -147,17 +147,18 @@ fun RegistrationScreen(context: Context, databaseHelper: UserDBHelper) {
             Text(text = "Register", color = Color.White, fontSize = 18.sp)
         }
 
-        Spacer(modifier = Modifier.height(20.dp))
+        Spacer(modifier = Modifier.height(10.dp))
 
         Row(
             horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.fillMaxWidth()
         ) {
             Text(
                 text = "Have an account?",
                 color = Color.Gray
             )
-//            Spacer(modifier = Modifier.width(8.dp))
+            Spacer(modifier = Modifier.width(8.dp))
             TextButton(
                 onClick = {
                     context.startActivity(Intent(context, LoginActivity::class.java))
