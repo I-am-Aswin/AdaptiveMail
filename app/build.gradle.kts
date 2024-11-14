@@ -50,11 +50,16 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
 
-    // Added Dependency
-    implementation(libs.androidx.room.common)
-    implementation(libs.androidx.room.ktx)
-    implementation(libs.androidx.room.compiler)
-    implementation(libs.androidx.room.runtime)
+    implementation(libs.room.common)
+    implementation(libs.room.ktx)
+    implementation(libs.room.compiler)
+    implementation(libs.room.runtime)
+
+//    // Added Dependency
+//    implementation(libs.androidx.room.common)
+//    implementation(libs.androidx.room.ktx)
+//    implementation(libs.androidx.room.compiler)
+//    implementation(libs.androidx.room.runtime)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
